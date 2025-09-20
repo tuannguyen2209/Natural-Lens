@@ -6,6 +6,8 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import numpy as np
 import os
 import tensorflow as tf
+from tensorflow.keras.callbacks import TensorBoard
+
 print(tf.__version__)
 # In đoạn mã này ngay sau khi import tensorflow
 print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
@@ -23,7 +25,7 @@ if gpus:
 
 IMAGE_SIZE = (64, 64)
 BATCH_SIZE = 32
-DATA_DIR = "F:/Data Analysic/Convolutional-Neural-Networks/PetImages" 
+DATA_DIR = "F:/Data Analysic/Convolutional-Neural-Networks-1/PetImages" 
 train_datagen = ImageDataGenerator(
     rescale=1./255,
     rotation_range=20,
@@ -76,13 +78,14 @@ model = Sequential([
     Dropout(0.5),
     Dense(2, activation='softmax') 
 ])
-
+adam = tf.keras.optimizers.Adam(learning_rate=0.001)
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 model.summary()
 
 callbacks = [
     EarlyStopping(monitor="val_loss", patience=5, verbose=1, restore_best_weights=True),
-    ReduceLROnPlateau(monitor="val_loss", factor=0.5, patience=3, verbose=1)
+    ReduceLROnPlateau(monitor="val_loss", factor=0.5, patience=3, verbose=1),
+    tf.keras.callbacks.TensorBoard(log_dir="./logs")
 ]
 
 steps_per_epoch = train_generator.samples // BATCH_SIZE
@@ -95,7 +98,7 @@ history = model.fit(
     epochs=30, 
     validation_data=validation_generator,
     validation_steps=validation_steps,
-    callbacks=callbacks
+    callbacks=callbacks,
 )
 print("\nĐánh giá mô hình trên tập dữ liệu validation...")
 loss, accuracy = model.evaluate(validation_generator)
