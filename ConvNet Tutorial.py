@@ -5,11 +5,25 @@ from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import numpy as np
 import os
+import tensorflow as tf
+print(tf.__version__)
+# In đoạn mã này ngay sau khi import tensorflow
+print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 
+gpus = tf.config.list_physical_devices('GPU')
+if gpus:
+  try:
+    # Chỉ định TensorFlow chỉ sử dụng GPU đầu tiên nếu có nhiều GPU
+    tf.config.set_visible_devices(gpus[0], 'GPU')
+    logical_gpus = tf.config.list_logical_devices('GPU')
+    print(len(gpus), "Physical GPUs,", len(logical_gpus), "Logical GPU")
+  except RuntimeError as e:
+    # Thông báo lỗi nếu có vấn đề
+    print(e)
 
 IMAGE_SIZE = (64, 64)
 BATCH_SIZE = 32
-DATA_DIR = "F:/Learning/Data Analysic/Convolutional-Neural-Networks/PetImages" 
+DATA_DIR = "F:/Data Analysic/Convolutional-Neural-Networks/PetImages" 
 train_datagen = ImageDataGenerator(
     rescale=1./255,
     rotation_range=20,
@@ -78,7 +92,7 @@ print("\nBắt đầu quá trình huấn luyện mô hình...")
 history = model.fit(
     train_generator,
     steps_per_epoch=steps_per_epoch,
-    epochs=25, 
+    epochs=30, 
     validation_data=validation_generator,
     validation_steps=validation_steps,
     callbacks=callbacks
