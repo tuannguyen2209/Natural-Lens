@@ -25,7 +25,7 @@ if gpus:
 
 IMAGE_SIZE = (64, 64)
 BATCH_SIZE = 32
-DATA_DIR = "F:/Data Analysic/Convolutional-Neural-Networks-1/PetImages" 
+DATA_DIR = "F:/Data Analysic/Convolutional-Neural-Networks/PetImages" 
 train_datagen = ImageDataGenerator(
     rescale=1./255,
     rotation_range=20,
@@ -76,7 +76,7 @@ model = Sequential([
     Flatten(),
     Dense(512, activation='relu'),
     Dropout(0.5),
-    Dense(2, activation='softmax') 
+    Dense(3, activation='softmax') 
 ])
 adam = tf.keras.optimizers.Adam(learning_rate=0.001)
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
