@@ -26,8 +26,9 @@ if gpus:
 IMAGE_SIZE = (64, 64)
 BATCH_SIZE = 32
 DATA_DIR = "F:/Data Analysic/Convolutional-Neural-Networks/PetImages" 
-train_datagen = ImageDataGenerator(
+datagen = ImageDataGenerator(
     rescale=1./255,
+    # Các phép tăng cường dữ liệu (augmentation) chỉ được áp dụng cho tập training
     rotation_range=20,
     width_shift_range=0.2,
     height_shift_range=0.2,
@@ -35,30 +36,28 @@ train_datagen = ImageDataGenerator(
     zoom_range=0.2,
     horizontal_flip=True,
     fill_mode='nearest',
-    validation_split=0.2 
+    validation_split=0.2  # Tỷ lệ dữ liệu dùng cho validation
 )
-
-validation_datagen = ImageDataGenerator(
-    rescale=1./255,
-    validation_split=0.2 
-)
+# Dùng `datagen` đã định nghĩa ở trên với validation_split
+# để tạo ra hai luồng dữ liệu (generator)
 
 print("Tạo luồng dữ liệu training...")
-train_generator = train_datagen.flow_from_directory(
-    DATA_DIR,
-    target_size=IMAGE_SIZE,
-    batch_size=BATCH_SIZE,
-    class_mode='categorical', 
-    subset='training'         
-)
-
-print("Tạo luồng dữ liệu validation...")
-validation_generator = validation_datagen.flow_from_directory(
+train_generator = datagen.flow_from_directory(
     DATA_DIR,
     target_size=IMAGE_SIZE,
     batch_size=BATCH_SIZE,
     class_mode='categorical',
-    subset='validation'  
+    subset='training'  # Chỉ định đây là tập training
+)
+
+print("Tạo luồng dữ liệu validation...")
+validation_generator = datagen.flow_from_directory(
+    DATA_DIR,
+    target_size=IMAGE_SIZE,
+    batch_size=BATCH_SIZE,
+    class_mode='categorical',
+    subset='validation',  # Chỉ định đây là tập validation
+    shuffle=False  # Không cần xáo trộn dữ liệu trên tập validation
 )
 model = Sequential([
     Conv2D(64, (3, 3), activation='relu', input_shape=(64, 64, 3)),
