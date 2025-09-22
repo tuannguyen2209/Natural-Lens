@@ -25,7 +25,7 @@ if gpus:
 
 IMAGE_SIZE = (64, 64)
 BATCH_SIZE = 32
-DATA_DIR = "F:/Data Analysic/Convolutional-Neural-Networks/PetImages" 
+DATA_DIR = "F:/Data Analysic/Convolutional-Neural-Networks/PetImages/1/" 
 datagen = ImageDataGenerator(
     rescale=1./255,
     # Các phép tăng cường dữ liệu (augmentation) chỉ được áp dụng cho tập training
@@ -102,3 +102,5 @@ history = model.fit(
 print("\nĐánh giá mô hình trên tập dữ liệu validation...")
 loss, accuracy = model.evaluate(validation_generator)
 print(f"Độ chính xác trên tập validation: {accuracy * 100:.2f}%")
+model.save("pet_classifier_model.h5")
+print("Mô hình đã được lưu vào 'pet_classifier_model.h5'")
