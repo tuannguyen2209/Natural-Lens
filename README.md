@@ -18,3 +18,30 @@ The goal of this project is to bring natural come closer to students, researcher
 - [License](#license)
 
 ## Key Features
+- **Multi-Class Detection:** Recognizes **100** different animal species (e.g., cats, dogs, bears, deer).
+- **Image Detection:** Analyzes static images (`.jpg`, `.png`) to identify animals.
+- **Video & Real-time Detection:** Processes video files (`.mp4`) and live webcam feeds.
+- **Confidence Scores:** Displays the species name and the model's confidence level for each detection.
+
+## Tech Stack
+- **Language:** Python 3.13
+- **Deep Learning Framework:** TensorFlow 2.x / PyTorch
+- **Core Libraries:** OpenCV, NumPy, Matplotlib
+- **UI (Optional):** Tkinter, PyQt, Streamlit
+
+  ## Installation
+
+Follow these steps to set up the project on your local machine.
+
+1.  **Clone the repository:**
+    ```bash git clone https://github.com/tuannguyen2209/Natural-Lens.git```
+2.  **Create a virtual environment (recommended):**
+    ```bash
+    python -m venv venv
+    source venv/bin/activate  # On Windows: venv\Scripts\activate
+    ```
+3.  **Install the required dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+    *(Note: Create a `requirements.txt` file by running `pip freeze > requirements.txt` in your activated environment.)*
